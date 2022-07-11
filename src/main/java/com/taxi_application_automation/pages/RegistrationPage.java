@@ -10,9 +10,12 @@ import org.openqa.selenium.WebElement;
 
 import com.taxi_application_automation.actions.ElementAction;
 import com.taxi_application_automation.constants.FilePathConstants;
+import com.taxi_application_automation.messages.ErrorMessages;
+import com.taxi_application_automation.messages.InfoMessages;
+import com.taxi_application_automation.messages.VerifyMessages;
 import com.taxi_application_automation.pages.keys.CommonKeys;
 import com.taxi_application_automation.pages.keys.RegistrationKeys;
-import com.taxi_application_automation.utility.PropertyParser;
+import com.taxi_application_automation.utility.PropertyParsers;
 import com.taxi_application_automation.verify.Verify;
 
 import io.appium.java_client.AppiumDriver;
@@ -26,7 +29,7 @@ import io.appium.java_client.AppiumDriver;
 public class RegistrationPage {
 
 	public Logger logger = Logger.getLogger(RegistrationPage.class);
-	PropertyParser loadProperty = new PropertyParser();
+	PropertyParsers loadProperty = new PropertyParsers();
 	ElementAction action = new ElementAction();
 	LoginPage loginPage = new LoginPage();
 	Verify verify = new Verify();
@@ -44,68 +47,68 @@ public class RegistrationPage {
 
 		try {
 			try {
-				logger.info("Register page is Displayed");
-				logger.info("Enter the First name");
+				logger.info(InfoMessages.REGISTRATION_PAGE_DISPLAY_MESSAGE);
+				logger.info(InfoMessages.ENTER_FIRSTNAME_MESSAGE);
 				WebElement firstNametextBox = driver.findElement(By.id(loadProperty
 						.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.FIRST_NAME_TEXT_BOX)));
 				action.TextBox(firstNametextBox,
 						loadProperty.getValue(FilePathConstants.REGISTRATION_DETAIL, RegistrationKeys.FIRST_NAME_TEXT));
 
-				logger.info("Enter the Last name");
+				logger.info(InfoMessages.ENTER_LASTNAME_MESSAGE);
 				WebElement lastNameTextBox = driver.findElement(By.id(loadProperty
 						.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.LAST_NAME_TEXT_BOX)));
 				action.TextBox(lastNameTextBox,
 						loadProperty.getValue(FilePathConstants.REGISTRATION_DETAIL, RegistrationKeys.LAST_NAME_TEXT));
 
-				logger.info("Enter the MobileNumber");
+				logger.info(InfoMessages.ENTER_MOBILE_NUMBER_MESSAGE);
 				WebElement mobileNumberTextBox = driver.findElement(By.id(loadProperty
 						.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.MOBILE_NUMBER_TEXT_BOX)));
 				action.TextBox(mobileNumberTextBox, loadProperty.getValue(FilePathConstants.REGISTRATION_DETAIL,
 						RegistrationKeys.MOBILE_NUMBER_TEXT));
 
-				logger.info("Enter the Valid Email id");
+				logger.info(InfoMessages.ENTER_EMAILID_MESSAGE);
 				WebElement emailTextBox = driver.findElement(By.id(loadProperty
 						.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.EMAIL_ADDRESS_TEXTBOX)));
 				action.TextBox(emailTextBox, loadProperty.getValue(FilePathConstants.REGISTRATION_DETAIL,
 						RegistrationKeys.EMAIL_ADDRESS_TEXT));
 
-				logger.info("Enter the password");
+				logger.info(InfoMessages.ENTER_PASSWORD_MESSAGE);
 				WebElement passwordTextBox = driver.findElement(By.id(loadProperty
 						.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.PASSWORD_TEXT_BOX)));
 				action.TextBox(passwordTextBox,
 						loadProperty.getValue(FilePathConstants.REGISTRATION_DETAIL, RegistrationKeys.PASSWORD_TEXT));
 
-				logger.info("Enter the password again to confirm");
+				logger.info(InfoMessages.ENTER_CONFIRM_PASSWORD_MESSAGE);
 				WebElement confirmPasswordTextBox = driver.findElement(By.id(loadProperty
 						.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.CONFIRM_PASSWORD_TEXT_BOX)));
 				action.TextBox(confirmPasswordTextBox, loadProperty.getValue(FilePathConstants.REGISTRATION_DETAIL,
 						RegistrationKeys.CONFIRM_PASSWORD_TEXT));
 
-				logger.info("Click on Register button");
+				logger.info(InfoMessages.CLICK_REGISTER_BUTTON);
 				WebElement registerButton = driver.findElement(By.id(
 						loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.REGISTER_BUTTON)));
 				action.clickButton(registerButton);
 
-				logger.info("Click on Ok button");
+				logger.info(InfoMessages.CLICK_OK__BUTTON_MESSAGE);
 				WebElement okButton = driver.findElement(
 						By.id(loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, CommonKeys.OK_BUTTON)));
 				action.clickButton(okButton);
 			} catch (NoSuchElementException noSuchElementException) {
-				logger.error("Check the webelement is correct");
+				logger.error(ErrorMessages.MISSING_WEBELEMENT_MESSAGE);
 			} catch (NullPointerException nullPointerException) {
-				logger.error("Check the driver is null");
+				logger.error(ErrorMessages.DRIVER_EMPTY_MESSAGE);
 			} catch (StaleElementReferenceException referenceException) {
-				logger.error("webpage refreshed");
+				logger.error(ErrorMessages.WEBPAGE_REFRESH_MESSSAGE);
 			}
 
-			logger.info(" User Registered Succcessfully ");
+			logger.info(InfoMessages.REGISTRATION_SUCCESSFUL_MESSAGE);
 
-			logger.info("Page directed to Login page!!");
+			logger.info(InfoMessages.PAGE_DIRECTED_TO_LOGIN_MESSAGE);
 
 			return true;
 
 		} catch (Exception exception) {
-			logger.info("! User Registration failed !");
+			logger.error(ErrorMessages.REGISTRATION_FAILED_MESSAGE);
 			return false;
 		}
 
@@ -119,13 +122,13 @@ public class RegistrationPage {
 	 */
 	public void verifyFirstNamePopup(AppiumDriver driver) {
 		try {
-			logger.info("--------First Name Empty Pop Up---------");
-			logger.info("Click register here");
+			logger.info("\n" + InfoMessages.FIRSTNAME_POPUP_TITLE_MESSAGE);
+			logger.info(InfoMessages.CLICK_REGISTER_BUTTON);
 			WebElement registerButton = driver.findElement(By
 					.id(loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.REGISTER_BUTTON)));
 			action.clickButton(registerButton);
 
-			logger.info("Read and get the popup message for not entering the first name");
+			logger.info(InfoMessages.GET_FIRSTNAME_POPUP_MESSAGE);
 			WebElement popUpElement = driver.findElement(By.id(
 					loadProperty.getValue(FilePathConstants.REGISTER_POPUP_PATH, RegistrationKeys.FIRST_NAME_POPUP)));
 			String getActualPopupText = action.Element_text(popUpElement);
@@ -133,27 +136,27 @@ public class RegistrationPage {
 			String expectedPopupText = loadProperty.getValue(FilePathConstants.REGISTER_POPUP_DETAILS,
 					RegistrationKeys.FIRST_NAME_EMPTY_MESSAGE);
 
-			logger.info("Verifying the actual popup and expected popup");
+			logger.info(VerifyMessages.VERIFY_FIRSTNAME_POPUP_MESSAGE);
 
 			verify.verifyString(getActualPopupText, expectedPopupText, "Verify First name popup :");
 
-			logger.info("Click ok button");
+			logger.info(InfoMessages.CLICK_OK__BUTTON_MESSAGE);
 			WebElement okButton = driver.findElement(
 					By.id(loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, CommonKeys.OK_BUTTON)));
 			action.clickButton(okButton);
 
-			logger.info("Enter the first name text");
+			logger.info(InfoMessages.ENTER_FIRSTNAME_MESSAGE);
 			WebElement firstNametextBox = driver.findElement(By.id(
 					loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.FIRST_NAME_TEXT_BOX)));
 			action.TextBox(firstNametextBox,
 					loadProperty.getValue(FilePathConstants.REGISTRATION_DETAIL, RegistrationKeys.FIRST_NAME_TEXT));
 			System.out.println();
 		} catch (NoSuchElementException noSuchElementException) {
-			logger.error("Check the webelement is correct");
+			logger.error(ErrorMessages.MISSING_WEBELEMENT_MESSAGE);
 		} catch (NullPointerException nullPointerException) {
-			logger.error("Check the driver is null");
+			logger.error(ErrorMessages.DRIVER_EMPTY_MESSAGE);
 		} catch (StaleElementReferenceException referenceException) {
-			logger.error("webpage refreshed");
+			logger.error(ErrorMessages.WEBPAGE_REFRESH_MESSSAGE);
 		}
 	}
 
@@ -165,13 +168,13 @@ public class RegistrationPage {
 	 */
 	public void verifyLastNamePopup(AppiumDriver driver) {
 		try {
-			logger.info("--------Last Name Empty Pop Up---------");
-			logger.info("Click register here");
+			logger.info("\n" + InfoMessages.LASTNAME_POPUP_TITLE_MESSAGE);
+			logger.info(InfoMessages.CLICK_REGISTER_BUTTON);
 			WebElement registerButton = driver.findElement(By
 					.id(loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.REGISTER_BUTTON)));
 			action.clickButton(registerButton);
 
-			logger.info("Read and get the popup message for not entering the last name");
+			logger.info(InfoMessages.GET_LASTNAME_POPUP_MESSAGE);
 			WebElement popUpElement = driver.findElement(By.id(
 					loadProperty.getValue(FilePathConstants.REGISTER_POPUP_PATH, RegistrationKeys.LAST_NAME_POPUP)));
 			String getActualPopupText = action.Element_text(popUpElement);
@@ -179,25 +182,25 @@ public class RegistrationPage {
 			String expectedPopupText = loadProperty.getValue(FilePathConstants.REGISTER_POPUP_DETAILS,
 					RegistrationKeys.LAST_NAME_EMPTY_MESSAGE);
 
-			logger.info("Verifying the actual popup and expected popup");
+			logger.info(VerifyMessages.VERIFY_LASTNAME_POPUP_MESSAGE);
 			verify.verifyString(getActualPopupText, expectedPopupText, "Verify Last Name popup :");
 
-			logger.info("Click ok button");
+			logger.info(InfoMessages.CLICK_OK__BUTTON_MESSAGE);
 			WebElement okButton = driver.findElement(
 					By.id(loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, CommonKeys.OK_BUTTON)));
 			action.clickButton(okButton);
 
-			logger.info("Enter the last name text" + "\n");
+			logger.info(InfoMessages.ENTER_LASTNAME_MESSAGE + "\n");
 			WebElement lastNameTextBox = driver.findElement(By.id(
 					loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.LAST_NAME_TEXT_BOX)));
 			action.TextBox(lastNameTextBox,
 					loadProperty.getValue(FilePathConstants.REGISTRATION_DETAIL, RegistrationKeys.LAST_NAME_TEXT));
 		} catch (NoSuchElementException noSuchElementException) {
-			logger.error("Check the webelement is correct");
+			logger.error(ErrorMessages.MISSING_WEBELEMENT_MESSAGE);
 		} catch (NullPointerException nullPointerException) {
-			logger.error("Check the driver is null");
+			logger.error(ErrorMessages.DRIVER_EMPTY_MESSAGE);
 		} catch (StaleElementReferenceException referenceException) {
-			logger.error("webpage refreshed");
+			logger.error(ErrorMessages.WEBPAGE_REFRESH_MESSSAGE);
 		}
 	}
 
@@ -210,13 +213,13 @@ public class RegistrationPage {
 	 */
 	public void verifyMobileNumberPopup(AppiumDriver driver) {
 		try {
-			logger.info("--------Mobile Number Empty Pop Up---------");
-			logger.info("Click register here");
+			logger.info("\n" + InfoMessages.MOBILENUMBER_EMPTY_POPUP_TITLE_MESSAGE);
+			logger.info(InfoMessages.CLICK_REGISTER_BUTTON);
 			WebElement registerButton = driver.findElement(By
 					.id(loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.REGISTER_BUTTON)));
 			action.clickButton(registerButton);
 
-			logger.info("Read and get the popup message for not entering the mobile number");
+			logger.info(InfoMessages.GET_MOBILENUMBER_EMPTY_POPUP_MESSAGE);
 			WebElement popUpElement = driver.findElement(By.id(loadProperty
 					.getValue(FilePathConstants.REGISTER_POPUP_PATH, RegistrationKeys.MOBILE_NUMBER_POPUP)));
 			String getActualPopupText = action.Element_text(popUpElement);
@@ -224,26 +227,26 @@ public class RegistrationPage {
 			String expectedPopupText = loadProperty.getValue(FilePathConstants.REGISTER_POPUP_DETAILS,
 					RegistrationKeys.MOBILE_NUMBER_EMPTY_MESSAGE);
 
-			logger.info("Verifying the actual popup and expected popup");
+			logger.info(VerifyMessages.VERIFY_NUMBER_EMPTY_POPUP_MESSAGE);
 			verify.verifyString(getActualPopupText, expectedPopupText, "Verify Mobile number popup :");
 
-			logger.info("Click ok button");
+			logger.info(InfoMessages.CLICK_OK__BUTTON_MESSAGE);
 			WebElement okButton = driver.findElement(
 					By.id(loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, CommonKeys.OK_BUTTON)));
 			action.clickButton(okButton);
 
-			logger.info("Enter the mobile number");
+			logger.info(InfoMessages.ENTER_INVALID_MOBILE_NUMBER_MESSAGE);
 			WebElement mobileNumberTextBox = driver.findElement(By.id(loadProperty
 					.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.MOBILE_NUMBER_TEXT_BOX)));
 			action.TextBox(mobileNumberTextBox, loadProperty.getValue(FilePathConstants.REGISTER_POPUP_DETAILS,
 					RegistrationKeys.INVALID_MOBILE_NUMBER_TEXT));
 			System.out.println();
 		} catch (NoSuchElementException noSuchElementException) {
-			logger.error("Check the webelement is correct");
+			logger.error(ErrorMessages.MISSING_WEBELEMENT_MESSAGE);
 		} catch (NullPointerException nullPointerException) {
-			logger.error("Check the driver is null");
+			logger.error(ErrorMessages.DRIVER_EMPTY_MESSAGE);
 		} catch (StaleElementReferenceException referenceException) {
-			logger.error("webpage refreshed");
+			logger.error(ErrorMessages.WEBPAGE_REFRESH_MESSSAGE);
 		}
 	}
 
@@ -255,13 +258,13 @@ public class RegistrationPage {
 	 */
 	public void verifyValidNumberPopup(AppiumDriver driver) {
 		try {
-			logger.info("--------Invalid Mobile Number Pop Up---------");
-			logger.info("Click register here");
+			logger.info("\n" + InfoMessages.MOBILENUMBER_INVALID_POPUP_TITLE_MESSAGE);
+			logger.info(InfoMessages.CLICK_REGISTER_BUTTON);
 			WebElement registerButton = driver.findElement(By
 					.id(loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.REGISTER_BUTTON)));
 			action.clickButton(registerButton);
 
-			logger.info("Read and get the popup message for not entering the valid mobile number");
+			logger.info(InfoMessages.GET_MOBILENUMBER_INVALID_POPUP_MESSAGE);
 			WebElement popUpElement = driver.findElement(By.id(loadProperty
 					.getValue(FilePathConstants.REGISTER_POPUP_PATH, RegistrationKeys.VALID_MOBILE_NUMBER_POPUP)));
 			String getActualPopupText = action.Element_text(popUpElement);
@@ -269,26 +272,26 @@ public class RegistrationPage {
 			String expectedPopupText = loadProperty.getValue(FilePathConstants.REGISTER_POPUP_DETAILS,
 					RegistrationKeys.INVALID_NUMBER__MESSAGE);
 
-			logger.info("Verifying the actual popup and expected popup");
+			logger.info(VerifyMessages.VERIFY_NUMBER_INVALID_POPUP_MESSAGE);
 			verify.verifyString(getActualPopupText, expectedPopupText, "Verify valid number popup :");
 
-			logger.info("Click ok button");
+			logger.info(InfoMessages.CLICK_OK__BUTTON_MESSAGE);
 			WebElement okButton = driver.findElement(
 					By.id(loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, CommonKeys.OK_BUTTON)));
 			action.clickButton(okButton);
 
-			logger.info("Enter the valid mobile number");
+			logger.info(InfoMessages.ENTER_MOBILE_NUMBER_MESSAGE);
 			WebElement mobileNumberTextBox = driver.findElement(By.id(loadProperty
 					.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.MOBILE_NUMBER_TEXT_BOX)));
 			action.TextBox(mobileNumberTextBox,
 					loadProperty.getValue(FilePathConstants.REGISTRATION_DETAIL, RegistrationKeys.MOBILE_NUMBER_TEXT));
 			System.out.println();
 		} catch (NoSuchElementException noSuchElementException) {
-			logger.error("Check the webelement is correct");
+			logger.error(ErrorMessages.MISSING_WEBELEMENT_MESSAGE);
 		} catch (NullPointerException nullPointerException) {
-			logger.error("Check the driver is null");
+			logger.error(ErrorMessages.DRIVER_EMPTY_MESSAGE);
 		} catch (StaleElementReferenceException referenceException) {
-			logger.error("webpage refreshed");
+			logger.error(ErrorMessages.WEBPAGE_REFRESH_MESSSAGE);
 		}
 	}
 
@@ -300,13 +303,13 @@ public class RegistrationPage {
 	 */
 	public void verifyEmailPopup(AppiumDriver driver) {
 		try {
-			logger.info("--------Invalid Email ID Pop Up---------");
-			logger.info("Click register here");
+			logger.info("\n" + InfoMessages.EMAIL_INVALID_POPUP_TITLE_MESSAGE);
+			logger.info(InfoMessages.CLICK_REGISTER_BUTTON);
 			WebElement registerButton = driver.findElement(By
 					.id(loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.REGISTER_BUTTON)));
 			action.clickButton(registerButton);
 
-			logger.info("Read and get the popup message for not entering the valid email id");
+			logger.info(InfoMessages.GET_EMAIL_INVALID_POPUP_MESSAGE);
 			WebElement popUpElement = driver.findElement(By
 					.id(loadProperty.getValue(FilePathConstants.REGISTER_POPUP_PATH, RegistrationKeys.EMAIL_ID_POPUP)));
 			String getActualPopupText = action.Element_text(popUpElement);
@@ -314,26 +317,26 @@ public class RegistrationPage {
 			String expectedPopupText = loadProperty.getValue(FilePathConstants.REGISTER_POPUP_DETAILS,
 					RegistrationKeys.EMAIL_ID_EMPTY_MESSAGE);
 
-			logger.info("Verifying the actual popup and expected popup");
+			logger.info(VerifyMessages.VERIFY_EMAIL_INVALID_POPUP_MESSAGE);
 			verify.verifyString(getActualPopupText, expectedPopupText, "Verify Email popup :");
 
-			logger.info("Click ok button");
+			logger.info(InfoMessages.CLICK_OK__BUTTON_MESSAGE);
 			WebElement okButton = driver.findElement(
 					By.id(loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, CommonKeys.OK_BUTTON)));
 			action.clickButton(okButton);
 
-			logger.info("Enter the valid valid email id");
+			logger.info(InfoMessages.ENTER_EMAILID_MESSAGE);
 			WebElement emailTextBox = driver.findElement(By.id(loadProperty
 					.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.EMAIL_ADDRESS_TEXTBOX)));
 			action.TextBox(emailTextBox,
 					loadProperty.getValue(FilePathConstants.REGISTRATION_DETAIL, RegistrationKeys.EMAIL_ADDRESS_TEXT));
 			System.out.println();
 		} catch (NoSuchElementException noSuchElementException) {
-			logger.error("Check the webelement is correct");
+			logger.error(ErrorMessages.MISSING_WEBELEMENT_MESSAGE);
 		} catch (NullPointerException nullPointerException) {
-			logger.error("Check the driver is null");
+			logger.error(ErrorMessages.DRIVER_EMPTY_MESSAGE);
 		} catch (StaleElementReferenceException referenceException) {
-			logger.error("webpage refreshed");
+			logger.error(ErrorMessages.WEBPAGE_REFRESH_MESSSAGE);
 		}
 	}
 
@@ -345,13 +348,13 @@ public class RegistrationPage {
 	 */
 	public void verifyPasswordPopup(AppiumDriver driver) {
 		try {
-			logger.info("--------Password Empty Pop Up---------");
-			logger.info("Click register here");
+			logger.info("\n" + InfoMessages.PASSWORD_EMPTY_POPUP_TITLE_MESSAGE);
+			logger.info(InfoMessages.CLICK_REGISTER_BUTTON);
 			WebElement registerButton = driver.findElement(By
 					.id(loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.REGISTER_BUTTON)));
 			action.clickButton(registerButton);
 
-			logger.info("Read and get the popup message for not entering the password");
+			logger.info(InfoMessages.GET_PASSWORD_EMPTY_POPUP_MESSAGE);
 			WebElement popUpElement = driver.findElement(By
 					.id(loadProperty.getValue(FilePathConstants.REGISTER_POPUP_PATH, RegistrationKeys.PASSWORD_POPUP)));
 			String getActualPopupText = action.Element_text(popUpElement);
@@ -359,26 +362,26 @@ public class RegistrationPage {
 			String expectedPopupText = loadProperty.getValue(FilePathConstants.REGISTER_POPUP_DETAILS,
 					RegistrationKeys.PASSWORD_EMPTY_MESSAGE);
 
-			logger.info("Verifying the actual popup and expected popup");
+			logger.info(VerifyMessages.VERIFY_PASSWORD_EMPTY_POPUP_MESSAGE);
 			verify.verifyString(getActualPopupText, expectedPopupText, "Verify Password popup :");
 
-			logger.info("Click ok button");
+			logger.info(InfoMessages.CLICK_OK__BUTTON_MESSAGE);
 			WebElement okButton = driver.findElement(
 					By.id(loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, CommonKeys.OK_BUTTON)));
 			action.clickButton(okButton);
 
-			logger.info("Enter the password upto 5 digits");
+			logger.info(InfoMessages.ENTER_PASSWORD_UPTO_5_DIGIT_MESSAGE);
 			WebElement passwordTextBox = driver.findElement(By.id(
 					loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.PASSWORD_TEXT_BOX)));
 			action.TextBox(passwordTextBox,
 					loadProperty.getValue(FilePathConstants.REGISTER_POPUP_DETAILS, RegistrationKeys.PASSWORD));
 			System.out.println();
 		} catch (NoSuchElementException noSuchElementException) {
-			logger.error("Check the webelement is correct");
+			logger.error(ErrorMessages.MISSING_WEBELEMENT_MESSAGE);
 		} catch (NullPointerException nullPointerException) {
-			logger.error("Check the driver is null");
+			logger.error(ErrorMessages.DRIVER_EMPTY_MESSAGE);
 		} catch (StaleElementReferenceException referenceException) {
-			logger.error("webpage refreshed");
+			logger.error(ErrorMessages.WEBPAGE_REFRESH_MESSSAGE);
 		}
 	}
 
@@ -391,13 +394,13 @@ public class RegistrationPage {
 	 */
 	public void verifyConfirmPasswordPopup(AppiumDriver driver) {
 		try {
-			logger.info("--------Comfirm Password Empty Pop Up---------");
-			logger.info("Click register here");
+			logger.info("\n" + InfoMessages.CONFIRM_PASSWORD_EMPTY_POPUP_TITLE_MESSAGE);
+			logger.info(InfoMessages.CLICK_REGISTER_BUTTON);
 			WebElement registerButton = driver.findElement(By
 					.id(loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.REGISTER_BUTTON)));
 			action.clickButton(registerButton);
 
-			logger.info("Read and get the popup message for not entering the Confrim password");
+			logger.info(InfoMessages.GET_CONFIRM_PASSWORD_EMPTY_POPUP_MESSAGE);
 			WebElement popUpElement = driver.findElement(By.id(loadProperty
 					.getValue(FilePathConstants.REGISTER_POPUP_PATH, RegistrationKeys.CONFIRM_PASSWORD_POPUP)));
 			String getActualPopupText = action.Element_text(popUpElement);
@@ -405,26 +408,26 @@ public class RegistrationPage {
 			String expectedPopupText = loadProperty.getValue(FilePathConstants.REGISTER_POPUP_DETAILS,
 					RegistrationKeys.CONFIRM_PASSWORD_EMPTY_MESSAGE);
 
-			logger.info("Verifying the actual popup and expected popup");
+			logger.info(VerifyMessages.VERIFY_CONFIRM_PASSWORD_EMPTY_POPUP_MESSAGE);
 			verify.verifyString(getActualPopupText, expectedPopupText, "Verify Confirm Password popup :");
 
-			logger.info("Click ok button");
+			logger.info(InfoMessages.CLICK_OK__BUTTON_MESSAGE);
 			WebElement okButton = driver.findElement(
 					By.id(loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, CommonKeys.OK_BUTTON)));
 			action.clickButton(okButton);
 
-			logger.info("Enter the password again upto 5 digits to confirm");
+			logger.info(InfoMessages.ENTER_CONFIRM_PASSWORD_UPTO_5_DIGIT_MESSAGE);
 			WebElement confirmPasswordTextBox = driver.findElement(By.id(loadProperty
 					.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.CONFIRM_PASSWORD_TEXT_BOX)));
 			action.TextBox(confirmPasswordTextBox,
 					loadProperty.getValue(FilePathConstants.REGISTER_POPUP_DETAILS, RegistrationKeys.CONFIRM_PASSWORD));
 			System.out.println();
 		} catch (NoSuchElementException noSuchElementException) {
-			logger.error("Check the webelement is correct");
+			logger.error(ErrorMessages.MISSING_WEBELEMENT_MESSAGE);
 		} catch (NullPointerException nullPointerException) {
-			logger.error("Check the driver is null");
+			logger.error(ErrorMessages.DRIVER_EMPTY_MESSAGE);
 		} catch (StaleElementReferenceException referenceException) {
-			logger.error("webpage refreshed");
+			logger.error(ErrorMessages.WEBPAGE_REFRESH_MESSSAGE);
 		}
 	}
 
@@ -437,13 +440,13 @@ public class RegistrationPage {
 	 */
 	public void verifyPasswordLengthPopup(AppiumDriver driver) {
 		try {
-			logger.info("--------Password less than 6 Digits Pop Up---------");
-			logger.info("Click register here");
+			logger.info("\n" + InfoMessages.PASSWORD_LENGTH_POPUP_TITLE_MESSAGE);
+			logger.info(InfoMessages.CLICK_REGISTER_BUTTON);
 			WebElement registerButton = driver.findElement(By
 					.id(loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.REGISTER_BUTTON)));
 			action.clickButton(registerButton);
 
-			logger.info("Read and get the popup message for not entering the password greater than 6 digits");
+			logger.info(InfoMessages.GET_PASSWORD_LENGTH_POPUP_MESSAGE);
 			WebElement popUpElement = driver.findElement(By.id(loadProperty
 					.getValue(FilePathConstants.REGISTER_POPUP_PATH, RegistrationKeys.PASSWORD_LENGTH_POPUP)));
 			String getActualPopupText = action.Element_text(popUpElement);
@@ -451,15 +454,15 @@ public class RegistrationPage {
 			String expectedPopupText = loadProperty.getValue(FilePathConstants.REGISTER_POPUP_DETAILS,
 					RegistrationKeys.PASSWORD_LENGTH_MESSAGE);
 
-			logger.info("Verifying the actual popup and expected popup");
+			logger.info(VerifyMessages.VERIFY_PASSWORD_LENGTH_POPUP_MESSAGE);
 			verify.verifyString(getActualPopupText, expectedPopupText, "Verify Password length popup :");
 
-			logger.info("Click ok button");
+			logger.info(InfoMessages.CLICK_OK__BUTTON_MESSAGE);
 			WebElement okButton = driver.findElement(
 					By.id(loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, CommonKeys.OK_BUTTON)));
 			action.clickButton(okButton);
 
-			logger.info("Enter the valid password");
+			logger.info(InfoMessages.ENTER_PASSWORD_MESSAGE);
 			WebElement passwordTextBox = driver.findElement(By.id(
 					loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.PASSWORD_TEXT_BOX)));
 			passwordTextBox.clear();
@@ -467,11 +470,11 @@ public class RegistrationPage {
 					loadProperty.getValue(FilePathConstants.REGISTRATION_DETAIL, RegistrationKeys.PASSWORD_TEXT));
 			System.out.println();
 		} catch (NoSuchElementException noSuchElementException) {
-			logger.error("Check the webelement is correct");
+			logger.error(ErrorMessages.MISSING_WEBELEMENT_MESSAGE);
 		} catch (NullPointerException nullPointerException) {
-			logger.error("Check the driver is null");
+			logger.error(ErrorMessages.DRIVER_EMPTY_MESSAGE);
 		} catch (StaleElementReferenceException referenceException) {
-			logger.error("webpage refreshed");
+			logger.error(ErrorMessages.WEBPAGE_REFRESH_MESSSAGE);
 		}
 	}
 
@@ -484,13 +487,13 @@ public class RegistrationPage {
 	 */
 	public void verifyPasswordNotMatchPopup(AppiumDriver driver) {
 		try {
-			logger.info("--------Password Mismatch Pop Up---------");
-			logger.info("Click register here");
+			logger.info("\n" + InfoMessages.PASSWORD_MISMATCH_POPUP_TITLE_MESSAGE);
+			logger.info(InfoMessages.CLICK_REGISTER_BUTTON);
 			WebElement registerButton = driver.findElement(By
 					.id(loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.REGISTER_BUTTON)));
 			action.clickButton(registerButton);
 
-			logger.info("Read and get the popup message for not entering the password and confirm password same");
+			logger.info(InfoMessages.GET_PASSWORD_MISMATCH_POPUP_MESSAGE);
 			WebElement popUpElement = driver.findElement(By.id(loadProperty
 					.getValue(FilePathConstants.REGISTER_POPUP_PATH, RegistrationKeys.PASSWORD_NOT_MATCH_POPUP)));
 			String getActualPopupText = action.Element_text(popUpElement);
@@ -498,26 +501,26 @@ public class RegistrationPage {
 			String expectedPopupText = loadProperty.getValue(FilePathConstants.REGISTER_POPUP_DETAILS,
 					RegistrationKeys.PASWORD__NOTMATCH_MESSAGE);
 
-			logger.info("Verifying the actual popup and expected popup");
+			logger.info(VerifyMessages.VERIFY_PASSWORD_MISMATCH_POPUP_MESSAGE);
 			verify.verifyString(getActualPopupText, expectedPopupText, "Verify Password Mismatch popup :");
 
-			logger.info("Click ok button");
+			logger.info(InfoMessages.CLICK_OK__BUTTON_MESSAGE);
 			WebElement okButton = driver.findElement(
 					By.id(loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, CommonKeys.OK_BUTTON)));
 			action.clickButton(okButton);
 
-			logger.info("Enter the valid password again to confirm");
+			logger.info(InfoMessages.ENTER_CONFIRM_PASSWORD_MESSAGE);
 			WebElement confirmPasswordTextBox = driver.findElement(By.id(loadProperty
 					.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.CONFIRM_PASSWORD_TEXT_BOX)));
 			action.TextBox(confirmPasswordTextBox, loadProperty.getValue(FilePathConstants.REGISTRATION_DETAIL,
 					RegistrationKeys.CONFIRM_PASSWORD_TEXT));
 			System.out.println();
 		} catch (NoSuchElementException noSuchElementException) {
-			logger.error("Check the webelement is correct");
+			logger.error(ErrorMessages.MISSING_WEBELEMENT_MESSAGE);
 		} catch (NullPointerException nullPointerException) {
-			logger.error("Check the driver is null");
+			logger.error(ErrorMessages.DRIVER_EMPTY_MESSAGE);
 		} catch (StaleElementReferenceException referenceException) {
-			logger.error("webpage refreshed");
+			logger.error(ErrorMessages.WEBPAGE_REFRESH_MESSSAGE);
 		}
 	}
 
@@ -529,13 +532,13 @@ public class RegistrationPage {
 	 */
 	public void verifySuccessPopup(AppiumDriver driver) {
 		try {
-			logger.info("--------Register Successful Pop Up---------");
-			logger.info("Click register here");
+			logger.info(InfoMessages.REGISTRATION_SUCCESSFUL_POPUP_TITLE_MESSAGE);
+			logger.info(InfoMessages.CLICK_REGISTER_BUTTON);
 			WebElement registerButton = driver.findElement(By
 					.id(loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.REGISTER_BUTTON)));
 			action.clickButton(registerButton);
 
-			logger.info("Read and get the popup message for succesful register");
+			logger.info(InfoMessages.GET_REGISTRATION_SUCCESS_POPUP_MESSAGE);
 			WebElement popUpElement = driver.findElement(By.id(
 					loadProperty.getValue(FilePathConstants.REGISTER_POPUP_PATH, RegistrationKeys.SUCCESSFUL_POPUP)));
 			String getActualPopupText = action.Element_text(popUpElement);
@@ -543,20 +546,20 @@ public class RegistrationPage {
 			String expectedPopupText = loadProperty.getValue(FilePathConstants.REGISTER_POPUP_DETAILS,
 					RegistrationKeys.SUCCESS_MESSAGE);
 
-			logger.info("Verifying the actual popup and expected popup");
+			logger.info(VerifyMessages.VERIFY_REGISTRATION_SUCCESS_POPUP_MESSAGE);
 			verify.verifyString(getActualPopupText, expectedPopupText, "Verify Success popup :");
 
-			logger.info("Click ok button");
+			logger.info(InfoMessages.CLICK_OK__BUTTON_MESSAGE);
 			WebElement okButton = driver.findElement(
 					By.id(loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, CommonKeys.OK_BUTTON)));
 			action.clickButton(okButton);
 			System.out.println();
 		} catch (NoSuchElementException noSuchElementException) {
-			logger.error("Check the webelement is correct");
+			logger.error(ErrorMessages.MISSING_WEBELEMENT_MESSAGE);
 		} catch (NullPointerException nullPointerException) {
-			logger.error("Check the driver is null");
+			logger.error(ErrorMessages.DRIVER_EMPTY_MESSAGE);
 		} catch (StaleElementReferenceException referenceException) {
-			logger.error("webpage refreshed");
+			logger.error(ErrorMessages.WEBPAGE_REFRESH_MESSSAGE);
 		}
 	}
 
@@ -569,52 +572,52 @@ public class RegistrationPage {
 	 */
 	public void verifyAlreadyRegisteredPopup(AppiumDriver driver) {
 		try {
-			logger.info("--------User Already Registered Pop Up---------");
+			logger.info(InfoMessages.ALREADY_REGISTERED_POPUP_TITLE_MESSAGE);
 
 			loginPage.clickRegisterHereLink(driver);
 
-			logger.info("Enter the First name");
+			logger.info(InfoMessages.ENTER_FIRSTNAME_MESSAGE);
 			WebElement firstNametextBox = driver.findElement(By.id(
 					loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.FIRST_NAME_TEXT_BOX)));
 			action.TextBox(firstNametextBox,
 					loadProperty.getValue(FilePathConstants.REGISTRATION_DETAIL, RegistrationKeys.FIRST_NAME_TEXT));
 
-			logger.info("Enter the Last name");
+			logger.info(InfoMessages.ENTER_LASTNAME_MESSAGE);
 			WebElement lastNameTextBox = driver.findElement(By.id(
 					loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.LAST_NAME_TEXT_BOX)));
 			action.TextBox(lastNameTextBox,
 					loadProperty.getValue(FilePathConstants.REGISTRATION_DETAIL, RegistrationKeys.LAST_NAME_TEXT));
 
-			logger.info("Enter the MobileNumber");
+			logger.info(InfoMessages.ENTER_MOBILE_NUMBER_MESSAGE);
 			WebElement mobileNumberTextBox = driver.findElement(By.id(loadProperty
 					.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.MOBILE_NUMBER_TEXT_BOX)));
 			action.TextBox(mobileNumberTextBox,
 					loadProperty.getValue(FilePathConstants.REGISTRATION_DETAIL, RegistrationKeys.MOBILE_NUMBER_TEXT));
 
-			logger.info("Enter the Valid Email id");
+			logger.info(InfoMessages.ENTER_EMAILID_MESSAGE);
 			WebElement emailTextBox = driver.findElement(By.id(loadProperty
 					.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.EMAIL_ADDRESS_TEXTBOX)));
 			action.TextBox(emailTextBox,
 					loadProperty.getValue(FilePathConstants.REGISTRATION_DETAIL, RegistrationKeys.EMAIL_ADDRESS_TEXT));
 
-			logger.info("Enter the password");
+			logger.info(InfoMessages.ENTER_PASSWORD_MESSAGE);
 			WebElement passwordTextBox = driver.findElement(By.id(
 					loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.PASSWORD_TEXT_BOX)));
 			action.TextBox(passwordTextBox,
 					loadProperty.getValue(FilePathConstants.REGISTRATION_DETAIL, RegistrationKeys.PASSWORD_TEXT));
 
-			logger.info("Enter the password again to confirm");
+			logger.info(InfoMessages.ENTER_CONFIRM_PASSWORD_MESSAGE);
 			WebElement confirmPasswordTextBox = driver.findElement(By.id(loadProperty
 					.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.CONFIRM_PASSWORD_TEXT_BOX)));
 			action.TextBox(confirmPasswordTextBox, loadProperty.getValue(FilePathConstants.REGISTRATION_DETAIL,
 					RegistrationKeys.CONFIRM_PASSWORD_TEXT));
 
-			logger.info("Click on Register button");
+			logger.info(InfoMessages.CLICK_REGISTER_BUTTON);
 			WebElement registerButton = driver.findElement(By
 					.id(loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, RegistrationKeys.REGISTER_BUTTON)));
 			action.clickButton(registerButton);
 
-			logger.info("Read and get the popup message for already register");
+			logger.info(InfoMessages.GET_ALREADY_REGISTERED_POPUP_MESSAGE);
 			WebElement popUpElement = driver.findElement(By.id(loadProperty
 					.getValue(FilePathConstants.REGISTER_POPUP_PATH, RegistrationKeys.ALREADY_REGISTER_POPUP)));
 			String getActualPopupText = action.Element_text(popUpElement);
@@ -622,24 +625,24 @@ public class RegistrationPage {
 			String expectedPopupText = loadProperty.getValue(FilePathConstants.REGISTER_POPUP_DETAILS,
 					RegistrationKeys.ALREADY_REGISTER_MESSAGE);
 
-			logger.info("Verifying the actual popup and expected popup");
+			logger.info(VerifyMessages.VERIFY_REGISTERED_ALREADY_POPUP_MESSAGE);
 			verify.verifyString(getActualPopupText, expectedPopupText, "Verify User Already registered popup :");
 
-			logger.info("Click ok button");
+			logger.info(InfoMessages.CLICK_OK__BUTTON_MESSAGE);
 			WebElement okButton = driver.findElement(
 					By.id(loadProperty.getValue(FilePathConstants.REGISTRATION_PATH, CommonKeys.OK_BUTTON)));
 			action.clickButton(okButton);
 
-			logger.info("Click on Back button");
+			logger.info(InfoMessages.CLICK_BACK_MESSAGE);
 			WebElement backButton = driver.findElement(
 					By.xpath(loadProperty.getValue(FilePathConstants.MENU_PAGE_PATH, CommonKeys.BACK_BUTTON)));
 			action.clickButton(backButton);
 		} catch (NoSuchElementException noSuchElementException) {
-			logger.error("Check the webelement is correct");
+			logger.error(ErrorMessages.MISSING_WEBELEMENT_MESSAGE);
 		} catch (NullPointerException nullPointerException) {
-			logger.error("Check the driver is null");
+			logger.error(ErrorMessages.DRIVER_EMPTY_MESSAGE);
 		} catch (StaleElementReferenceException referenceException) {
-			logger.error("webpage refreshed");
+			logger.error(ErrorMessages.WEBPAGE_REFRESH_MESSSAGE);
 		}
 	}
 

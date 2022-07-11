@@ -5,6 +5,8 @@ import org.openqa.selenium.NoSuchElementException;
 import org.testng.annotations.Test;
 
 import com.taxi_application_automation.base.TestBase;
+import com.taxi_application_automation.messages.ErrorMessages;
+import com.taxi_application_automation.messages.InfoMessages;
 import com.taxi_application_automation.pages.LoginPage;
 import com.taxi_application_automation.pages.MenuPage;
 import com.taxi_application_automation.pages.ProfilePage;
@@ -29,8 +31,7 @@ public class RegistrationTest extends TestBase {
 
 	@Test
 	public void registerationVerification() {
-		logger.info("------------Registration Test------------------");
-		System.out.println();
+		logger.info(InfoMessages.REGISTRATION_TITLE_MESSAGE + "\n");
 
 		try {
 			loginPage.clickRegisterHereLink(driver);
@@ -64,7 +65,7 @@ public class RegistrationTest extends TestBase {
 			menuPage.clickLogout(driver);
 
 		} catch (NoSuchElementException elementException) {
-			logger.info("Check the webelement is correct");
+			logger.info(ErrorMessages.MISSING_WEBELEMENT_MESSAGE);
 		}
 	}
 }

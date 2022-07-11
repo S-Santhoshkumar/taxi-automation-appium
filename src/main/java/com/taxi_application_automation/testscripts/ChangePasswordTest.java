@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.testng.annotations.Test;
 
 import com.taxi_application_automation.base.TestBase;
+import com.taxi_application_automation.messages.InfoMessages;
 import com.taxi_application_automation.pages.ChangePasswordPage;
 import com.taxi_application_automation.pages.LoginPage;
 import com.taxi_application_automation.pages.MenuPage;
@@ -34,9 +35,9 @@ public class ChangePasswordTest extends TestBase {
 
 	@Test
 	public void changePasswordVerification() {
-		logger.info("\n");
-		logger.info("------------ChangePassword Test------------------");
-		logger.info("\n");
+
+		logger.info("\n" + InfoMessages.CHANGE_PASSWORD_TITLE_MESSAGE + "\n");
+
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
 
 		loginPage.clickRegisterHereLink(driver);

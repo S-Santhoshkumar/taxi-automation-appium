@@ -10,7 +10,7 @@ import java.util.Properties;
  * @author Santhoshkumar.S
  *
  */
-public class PropertyParser {
+public class PropertyParsers {
 	public Properties properties;
 
 	/**

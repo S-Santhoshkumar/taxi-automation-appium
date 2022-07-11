@@ -8,6 +8,8 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.testng.annotations.Test;
 
 import com.taxi_application_automation.base.TestBase;
+import com.taxi_application_automation.messages.ErrorMessages;
+import com.taxi_application_automation.messages.InfoMessages;
 import com.taxi_application_automation.pages.HelpPage;
 import com.taxi_application_automation.pages.LoginPage;
 import com.taxi_application_automation.pages.MenuPage;
@@ -31,10 +33,11 @@ public class HelpPageTest extends TestBase {
 
 	@Test
 	public void popUpVerification() {
-		System.out.println();
-		logger.info("------------HelpPage Test------------------");
-		System.out.println();
+
+		logger.info("\n" + InfoMessages.HELP_PAGE_TITLE_MESSAGE + "\n");
+
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+
 		try {
 			loginPage.clickRegisterHereLink(driver);
 
@@ -52,11 +55,11 @@ public class HelpPageTest extends TestBase {
 
 			menuPage.clickLogout(driver);
 		} catch (NoSuchElementException noSuchElementException) {
-			logger.error("Check the webelement is correct");
+			logger.error(ErrorMessages.MISSING_WEBELEMENT_MESSAGE);
 		} catch (NullPointerException nullPointerException) {
-			logger.error("Check the driver is null");
+			logger.error(ErrorMessages.DRIVER_EMPTY_MESSAGE);
 		} catch (StaleElementReferenceException referenceException) {
-			logger.error("webpage refreshed");
+			logger.error(ErrorMessages.WEBPAGE_REFRESH_MESSSAGE);
 		}
 	}
 }

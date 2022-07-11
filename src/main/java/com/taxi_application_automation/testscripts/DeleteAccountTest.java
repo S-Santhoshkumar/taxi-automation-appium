@@ -8,6 +8,8 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.testng.annotations.Test;
 
 import com.taxi_application_automation.base.TestBase;
+import com.taxi_application_automation.messages.ErrorMessages;
+import com.taxi_application_automation.messages.InfoMessages;
 import com.taxi_application_automation.pages.DeleteAccountPage;
 import com.taxi_application_automation.pages.LoginPage;
 import com.taxi_application_automation.pages.MenuPage;
@@ -38,9 +40,8 @@ public class DeleteAccountTest extends TestBase {
 	@Test
 	public void deleteVerification() {
 
-		System.out.println();
-		logger.info("------------DeleteAccount Test------------------");
-		System.out.println();
+		logger.info("\n" + InfoMessages.DELETE_ACCOUNT_TITLE_MESSAGE + "\n");
+
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
 
 		try {
@@ -66,11 +67,11 @@ public class DeleteAccountTest extends TestBase {
 
 			menuPage.clickLogout(driver);
 		} catch (NoSuchElementException noSuchElementException) {
-			logger.error("Check the webelement is correct");
+			logger.error(ErrorMessages.MISSING_WEBELEMENT_MESSAGE);
 		} catch (NullPointerException nullPointerException) {
-			logger.error("Check the driver is null");
+			logger.error(ErrorMessages.DRIVER_EMPTY_MESSAGE);
 		} catch (StaleElementReferenceException referenceException) {
-			logger.error("webpage refreshed");
+			logger.error(ErrorMessages.WEBPAGE_REFRESH_MESSSAGE);
 		}
 
 	}

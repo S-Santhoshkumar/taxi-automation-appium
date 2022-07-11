@@ -20,7 +20,7 @@ import com.taxi_application_automation.messages.ErrorMessages;
 import com.taxi_application_automation.messages.InfoMessages;
 import com.taxi_application_automation.pages.keys.CapabilityKeys;
 import com.taxi_application_automation.pages.keys.RegistrationKeys;
-import com.taxi_application_automation.utility.PropertyParser;
+import com.taxi_application_automation.utility.PropertyParsers;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
@@ -40,7 +40,7 @@ public class TestBase {
 	public JavascriptExecutor executor;
 
 	public Logger logger = Logger.getLogger(TestBase.class);
-	PropertyParser loadProperty = new PropertyParser();
+	PropertyParsers loadProperty = new PropertyParsers();
 
 	/**
 	 * VerifyLaunchApplication method contains the keys and values and launching the

@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.testng.annotations.Test;
 
 import com.taxi_application_automation.base.TestBase;
+import com.taxi_application_automation.messages.InfoMessages;
 import com.taxi_application_automation.pages.LoginPage;
 import com.taxi_application_automation.pages.MenuPage;
 import com.taxi_application_automation.pages.RegistrationPage;
@@ -32,9 +33,9 @@ public class RideLaterTest extends TestBase {
 
 	@Test
 	public void rideNowdetailsVerification() {
-		System.out.println();
-		logger.info("------------RideLater Test------------------");
-		System.out.println();
+
+		logger.info("\n" + InfoMessages.RIDE_LATER_TITLE_MESSAGE + "\n");
+
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
 
 		loginPage.clickRegisterHereLink(driver);

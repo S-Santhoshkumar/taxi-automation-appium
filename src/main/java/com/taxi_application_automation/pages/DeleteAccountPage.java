@@ -11,8 +11,10 @@ import org.testng.Assert;
 
 import com.taxi_application_automation.actions.ElementAction;
 import com.taxi_application_automation.constants.FilePathConstants;
+import com.taxi_application_automation.messages.ErrorMessages;
+import com.taxi_application_automation.messages.InfoMessages;
 import com.taxi_application_automation.pages.keys.DeleteAccountKeys;
-import com.taxi_application_automation.utility.PropertyParser;
+import com.taxi_application_automation.utility.PropertyParsers;
 
 import io.appium.java_client.AppiumDriver;
 
@@ -24,7 +26,7 @@ import io.appium.java_client.AppiumDriver;
  */
 public class DeleteAccountPage {
 	public Logger logger = Logger.getLogger(DeleteAccountPage.class);
-	PropertyParser loadProperty = new PropertyParser();
+	PropertyParsers loadProperty = new PropertyParsers();
 	ElementAction action = new ElementAction();
 
 	/**
@@ -35,16 +37,16 @@ public class DeleteAccountPage {
 	public void deleteAccount(AppiumDriver driver) {
 		try {
 			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
-			logger.info("Click on Ok button");
+			logger.info(InfoMessages.CLICK_OK__BUTTON_MESSAGE);
 			WebElement deleteOkButton = driver.findElement(
 					By.id(loadProperty.getValue(FilePathConstants.DELETE_PATH, DeleteAccountKeys.DELETE_OK_BUTTON)));
 			action.clickButton(deleteOkButton);
 		} catch (NoSuchElementException noSuchElementException) {
-			logger.error("Check the webelement is correct");
+			logger.error(ErrorMessages.MISSING_WEBELEMENT_MESSAGE);
 		} catch (NullPointerException nullPointerException) {
-			logger.error("Check the driver is null");
+			logger.error(ErrorMessages.DRIVER_EMPTY_MESSAGE);
 		} catch (StaleElementReferenceException referenceException) {
-			logger.error("webpage refreshed");
+			logger.error(ErrorMessages.WEBPAGE_REFRESH_MESSSAGE);
 		}
 	}
 
@@ -57,8 +59,8 @@ public class DeleteAccountPage {
 	public boolean deleteAccountVerify(AppiumDriver driver) {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
 		try {
-			logger.info("Home Page is entered");
-			logger.info("Account is not Deleted");
+			logger.info(InfoMessages.HOME_PAGE_ENTERED_MESSAGE);
+			logger.info(InfoMessages.ACCOUNT_NOT_DELETED_MESSAGE);
 			WebElement homePage = driver.findElement(
 					By.xpath(loadProperty.getValue(FilePathConstants.DELETE_PATH, DeleteAccountKeys.HOME_PAGE)));
 
@@ -66,7 +68,7 @@ public class DeleteAccountPage {
 
 			return true;
 		} catch (Exception exception) {
-			logger.info("deleted");
+			logger.error(ErrorMessages.ACCOUNT_DELETED_MESSAGE);
 			return false;
 		}
 	}

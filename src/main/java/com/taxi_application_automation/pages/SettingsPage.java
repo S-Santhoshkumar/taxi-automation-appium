@@ -10,9 +10,11 @@ import org.openqa.selenium.WebElement;
 
 import com.taxi_application_automation.actions.ElementAction;
 import com.taxi_application_automation.constants.FilePathConstants;
+import com.taxi_application_automation.messages.ErrorMessages;
+import com.taxi_application_automation.messages.InfoMessages;
 import com.taxi_application_automation.pages.keys.ChangePasswordKeys;
 import com.taxi_application_automation.pages.keys.DeleteAccountKeys;
-import com.taxi_application_automation.utility.PropertyParser;
+import com.taxi_application_automation.utility.PropertyParsers;
 
 import io.appium.java_client.AppiumDriver;
 
@@ -25,7 +27,7 @@ import io.appium.java_client.AppiumDriver;
 
 public class SettingsPage {
 	public Logger logger = Logger.getLogger(SettingsPage.class);
-	PropertyParser loadProperty = new PropertyParser();
+	PropertyParsers loadProperty = new PropertyParsers();
 	ElementAction action = new ElementAction();
 
 	/**
@@ -36,16 +38,16 @@ public class SettingsPage {
 	public void clickChangePassword(AppiumDriver driver) {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
 		try {
-			logger.info("Click on Change Password");
+			logger.info(InfoMessages.CLICK_CHANGE_PASSWORD_MESSAGE);
 			WebElement changePasswordButton = driver.findElement(By.xpath(loadProperty
 					.getValue(FilePathConstants.CHANGE_PASSWORD, ChangePasswordKeys.CHANGE_PASSWORD_BUTTON)));
 			action.clickButton(changePasswordButton);
 		} catch (NoSuchElementException noSuchElementException) {
-			logger.error("Check the webelement is correct");
+			logger.error(ErrorMessages.MISSING_WEBELEMENT_MESSAGE);
 		} catch (NullPointerException nullPointerException) {
-			logger.error("Check the driver is null");
+			logger.error(ErrorMessages.DRIVER_EMPTY_MESSAGE);
 		} catch (StaleElementReferenceException referenceException) {
-			logger.error("webpage refreshed");
+			logger.error(ErrorMessages.WEBPAGE_REFRESH_MESSSAGE);
 		}
 	}
 
@@ -57,16 +59,16 @@ public class SettingsPage {
 	public void clickDeleteMyAccount(AppiumDriver driver) {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
 		try {
-			logger.info("Click on Delete My Account");
+			logger.info(InfoMessages.CLICK_DELETE_ACCOUNT_MESSAGE);
 			WebElement deleteButton = driver.findElement(
 					By.xpath(loadProperty.getValue(FilePathConstants.DELETE_PATH, DeleteAccountKeys.DELETE_BUTTON)));
 			action.clickButton(deleteButton);
 		} catch (NoSuchElementException noSuchElementException) {
-			logger.error("Check the webelement is correct");
+			logger.error(ErrorMessages.MISSING_WEBELEMENT_MESSAGE);
 		} catch (NullPointerException nullPointerException) {
-			logger.error("Check the driver is null");
+			logger.error(ErrorMessages.DRIVER_EMPTY_MESSAGE);
 		} catch (StaleElementReferenceException referenceException) {
-			logger.error("webpage refreshed");
+			logger.error(ErrorMessages.WEBPAGE_REFRESH_MESSSAGE);
 		}
 	}
 }

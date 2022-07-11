@@ -14,7 +14,7 @@ import com.taxi_application_automation.messages.ErrorMessages;
 import com.taxi_application_automation.messages.InfoMessages;
 import com.taxi_application_automation.pages.keys.CommonKeys;
 import com.taxi_application_automation.pages.keys.RideNowKeys;
-import com.taxi_application_automation.utility.PropertyParser;
+import com.taxi_application_automation.utility.PropertyParsers;
 
 import io.appium.java_client.AppiumDriver;
 
@@ -26,7 +26,7 @@ import io.appium.java_client.AppiumDriver;
  */
 public class BookTaxiPage {
 	public Logger logger = Logger.getLogger(BookTaxiPage.class);
-	PropertyParser loadProperty = new PropertyParser();
+	PropertyParsers loadProperty = new PropertyParsers();
 	ElementAction action = new ElementAction();
 
 	/**
@@ -55,7 +55,7 @@ public class BookTaxiPage {
 					By.id(loadProperty.getValue(FilePathConstants.RIDE_NOW_PATH, RideNowKeys.RIDE_NOW_BUTTON)));
 			action.clickButton(rideNowButton);
 
-			logger.info(InfoMessages.CLICK_OK_MESSAGE);
+			logger.info(InfoMessages.CLICK_OK__BUTTON_MESSAGE);
 			WebElement okButton = driver
 					.findElement(By.id(loadProperty.getValue(FilePathConstants.RIDE_NOW_PATH, CommonKeys.OK_BUTTON)));
 			action.clickButton(okButton);
@@ -98,7 +98,7 @@ public class BookTaxiPage {
 						By.id(loadProperty.getValue(FilePathConstants.RIDE_NOW_PATH, RideNowKeys.RIDE_NOW_BUTTON)));
 				action.clickButton(rideNowButton);
 
-				logger.info(InfoMessages.CLICK_OK_MESSAGE);
+				logger.info(InfoMessages.CLICK_OK__BUTTON_MESSAGE);
 				WebElement okButton = driver.findElement(
 						By.id(loadProperty.getValue(FilePathConstants.RIDE_NOW_PATH, CommonKeys.OK_BUTTON)));
 				action.clickButton(okButton);

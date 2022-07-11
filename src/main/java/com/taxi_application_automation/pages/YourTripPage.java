@@ -21,10 +21,13 @@ import org.openqa.selenium.WebElement;
 
 import com.taxi_application_automation.actions.ElementAction;
 import com.taxi_application_automation.constants.FilePathConstants;
+import com.taxi_application_automation.messages.ErrorMessages;
+import com.taxi_application_automation.messages.InfoMessages;
+import com.taxi_application_automation.messages.VerifyMessages;
 import com.taxi_application_automation.pages.keys.CommonKeys;
 import com.taxi_application_automation.pages.keys.RideLaterKeys;
 import com.taxi_application_automation.pages.keys.RideNowKeys;
-import com.taxi_application_automation.utility.PropertyParser;
+import com.taxi_application_automation.utility.PropertyParsers;
 import com.taxi_application_automation.verify.Verify;
 
 import io.appium.java_client.AppiumDriver;
@@ -42,7 +45,7 @@ public class YourTripPage {
 	String TRIP_DETAILS_RIDE_LATER;
 	List<String> RIDE_LATER_TEXT_VERIFY;
 	public Logger logger = Logger.getLogger(YourTripPage.class);
-	PropertyParser loadProperty = new PropertyParser();
+	PropertyParsers loadProperty = new PropertyParsers();
 	ElementAction action = new ElementAction();
 	Verify verify = new Verify();
 	RideLaterPage rideLaterPage = new RideLaterPage();
@@ -55,16 +58,16 @@ public class YourTripPage {
 	public void rideNowTripDetails(AppiumDriver driver) {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
 		try {
-			logger.info("Read and get te details of the trip");
+			logger.info(InfoMessages.GET_RIDE_NOW_TRIP_DETAILS_MESSAGE);
 			WebElement verifytext = driver.findElement(
 					By.xpath(loadProperty.getValue(FilePathConstants.RIDE_NOW_PATH, RideNowKeys.VERIFY_TRIP_BUTTON)));
 			TRIP_TEXT = action.Element_text(verifytext);
 		} catch (NoSuchElementException noSuchElementException) {
-			logger.error("Check the webelement is correct");
+			logger.error(ErrorMessages.MISSING_WEBELEMENT_MESSAGE);
 		} catch (NullPointerException nullPointerException) {
-			logger.error("Check the driver is null");
+			logger.error(ErrorMessages.DRIVER_EMPTY_MESSAGE);
 		} catch (StaleElementReferenceException referenceException) {
-			logger.error("webpage refreshed");
+			logger.error(ErrorMessages.WEBPAGE_REFRESH_MESSSAGE);
 		}
 	}
 
@@ -75,7 +78,7 @@ public class YourTripPage {
 	 */
 	public void verifyfromAndTo(AppiumDriver driver) {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
-		logger.info("Verify From and To details are Matching");
+		logger.info(VerifyMessages.VERIFY_FROM_AND_TO_MATCHING_MESSAGE);
 		RIDE_NOW_TEXT_VERIFY = new ArrayList<String>();
 
 		try (Scanner checkText = new Scanner(TRIP_TEXT)) {
@@ -92,12 +95,12 @@ public class YourTripPage {
 
 		String toText = splitFromToWords[2];
 
-		logger.info("Verify that the From text is same or not");
+		logger.info(VerifyMessages.VERIFY_FROM_LOCATION_MESSAGE);
 		verify.verifyString(fromText,
 				loadProperty.getValue(FilePathConstants.RIDE_NOW_DETAILS, RideNowKeys.PICK_UP_TEXT),
 				"Verify From text : ");
 
-		logger.info("Verify that the To text is same or not");
+		logger.info(VerifyMessages.VERIFY_TO_LOCATION_MESSAGE);
 		verify.verifyString(toText, loadProperty.getValue(FilePathConstants.RIDE_NOW_DETAILS, RideNowKeys.DROP_TEXT),
 				"Verify To text : ");
 	}
@@ -109,7 +112,7 @@ public class YourTripPage {
 	 */
 	public void verifyRideNowTripTime(AppiumDriver driver) {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
-		logger.info("Verify the both sysytem time and booking is equal");
+		logger.info(VerifyMessages.VERIFY_TIME_MESSAGE);
 		String timeString = RIDE_NOW_TEXT_VERIFY.get(1);
 		String[] strArray = timeString.split(",");
 		String time = strArray[1].toString().trim();
@@ -122,7 +125,7 @@ public class YourTripPage {
 		String[] systemTime = DATE_STRING.split(",");
 		String systemtimeString = systemTime[1].toString().trim();
 
-		logger.info("Verify that the Arrival time is showing 5 min after booking ");
+		logger.info(VerifyMessages.VERIFY_ARRIVAL_TIME_MESSAGE);
 		verify.verifyString(systemtimeString, time, "Verify time : ");
 	}
 
@@ -133,15 +136,15 @@ public class YourTripPage {
 	 */
 	public void verifyRideNowTripStatus(AppiumDriver driver) {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
-		logger.info("Verify that booking status is Upcoming");
+
 		String tripStatus = RIDE_NOW_TEXT_VERIFY.get(4);
 		String[] splitStatus = tripStatus.split("\\s");
 		String status = splitStatus[1];
 
-		logger.info("Verify that the Status is upcoming after booking the ride");
+		logger.info(VerifyMessages.VERIFY_TRIP_STATUS_MESSAGE);
 		verify.verifyString(status, "Upcoming", "Verify Status : ");
 
-		logger.info("Click on Back button");
+		logger.info(InfoMessages.CLICK_BACK_MESSAGE);
 		WebElement backButton = driver
 				.findElement(By.xpath(loadProperty.getValue(FilePathConstants.MENU_PAGE_PATH, CommonKeys.BACK_BUTTON)));
 		action.clickButton(backButton);
@@ -154,7 +157,7 @@ public class YourTripPage {
 	 */
 	public void rideLaterTripDetails(AppiumDriver driver) {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
-		logger.info("Read and get te details of the trip");
+		logger.info(InfoMessages.GET_RIDELATER_TRIP_DETAILS_MESSAGE);
 		WebElement tripDetails = driver.findElement(
 				By.xpath(loadProperty.getValue(FilePathConstants.RIDE_LATER_PATH, RideLaterKeys.TRIP_DETAILS)));
 		TRIP_DETAILS_RIDE_LATER = action.Element_text(tripDetails);
@@ -168,7 +171,7 @@ public class YourTripPage {
 	 */
 	public void verifyFromAndToLocation(AppiumDriver driver) {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
-		logger.info("Verify From and To details are Matching");
+		logger.info(VerifyMessages.VERIFY_FROM_AND_TO_MATCHING_MESSAGE);
 		RIDE_LATER_TEXT_VERIFY = new ArrayList<String>();
 		try (Scanner textCheck = new Scanner(TRIP_DETAILS_RIDE_LATER)) {
 			while (textCheck.hasNextLine()) {
@@ -183,12 +186,12 @@ public class YourTripPage {
 		String fromText = splitFromToWords[0];
 		String toText = splitFromToWords[2];
 
-		logger.info("Verify that the From text is same or not");
+		logger.info(VerifyMessages.VERIFY_FROM_LOCATION_MESSAGE);
 		verify.verifyString(fromText,
 				loadProperty.getValue(FilePathConstants.RIDE_LATER_DETAILS, RideLaterKeys.PICK_UP_TEXT),
 				"Verifying From text");
 
-		logger.info("Verify that the To text is same or not");
+		logger.info(VerifyMessages.VERIFY_TO_LOCATION_MESSAGE);
 		verify.verifyString(toText,
 				loadProperty.getValue(FilePathConstants.RIDE_LATER_DETAILS, RideLaterKeys.DROP_TEXT),
 				"Verifying To text : ");
@@ -201,15 +204,13 @@ public class YourTripPage {
 	 */
 	public void verifyRideLaterTripTime(AppiumDriver driver) {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
-		logger.info("Verify the both sysytem time and booking is equal");
-
 		String time = rideLaterPage.TIME_TEXT;
 		String timeString = RIDE_LATER_TEXT_VERIFY.get(1);
 		String[] strArray = timeString.split(",");
 		String systemTime = strArray[1].toString().trim();
 		logger.info(systemTime);
 
-		logger.info("Verify that the Time is equal ");
+		logger.info(VerifyMessages.VERIFY_TIME_MESSAGE);
 		verify.verifyString(systemTime, time, "Time Verification : 	");
 
 	}
@@ -221,17 +222,17 @@ public class YourTripPage {
 	 */
 	public void verifyRideLaterTripStatus(AppiumDriver driver) {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
-		logger.info("Verify that booking status is Upcoming");
+
 		String statusText = RIDE_LATER_TEXT_VERIFY.get(4);
 
 		String[] splitStatus = statusText.split("\\s");
 
 		String status = splitStatus[1];
 
-		logger.info("Verify that the Status is upcoming after booking the ride");
+		logger.info(VerifyMessages.VERIFY_TRIP_STATUS_MESSAGE);
 		verify.verifyString(status, "Upcoming", "Verify Status");
 
-		logger.info("Click on Back button");
+		logger.info(InfoMessages.CLICK_BACK_MESSAGE);
 		WebElement backButton = driver
 				.findElement(By.xpath(loadProperty.getValue(FilePathConstants.MENU_PAGE_PATH, CommonKeys.BACK_BUTTON)));
 		action.clickButton(backButton);
@@ -267,7 +268,7 @@ public class YourTripPage {
 			driverList.add(fromToString);
 		}
 		for (String driverName : driverList) {
-			logger.info("Driver Name list : " + driverName);
+			logger.info(InfoMessages.DISPLAY_DRIVER_LIST_MESSAGE + driverName);
 		}
 
 		String originalDriverString = String.valueOf(driverList.size());
@@ -276,15 +277,15 @@ public class YourTripPage {
 		for (String duplicates : driverList) {
 			removeDuplicate.add(duplicates);
 		}
-		logger.info("After removing repeated Driver name : " + removeDuplicate);
+		logger.info(InfoMessages.DISPLAY_REPEATED_NAMES_MESSAGE + removeDuplicate);
 
 		String removingDuplicateString = String.valueOf(removeDuplicate.size());
 
-		logger.info("Verify the driver names are different ");
+		logger.info(VerifyMessages.VERIFY_NAME_DIFFERENT_MESSAGE);
 
 		verify.verifyBoolean(originalDriverString, removingDuplicateString, true);
 
-		logger.info("Click on Back button");
+		logger.info(InfoMessages.CLICK_BACK_MESSAGE);
 		WebElement backButton = driver
 				.findElement(By.xpath(loadProperty.getValue(FilePathConstants.MENU_PAGE_PATH, CommonKeys.BACK_BUTTON)));
 		action.clickButton(backButton);
